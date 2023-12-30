@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    width: 100%;
+    height: 100%;
+  }
+  a {
+    text-decoration: none;
+  }
+.content_{
+    padding: 3em;
+}
+.card_content{
+    display: flex;
+    justify-content: center;
+}
