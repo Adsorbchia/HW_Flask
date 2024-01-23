@@ -6,7 +6,6 @@
             <form action="" method="post">
                 {{ form.csrf_token() }}
                 {{ render_field(form.username) }}
-
                 {{ render_field(form.email) }}
                 {{ render_field(form.password) }}
                 <p><input type=submit value=Register></p></form>
