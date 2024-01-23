@@ -19,44 +19,23 @@ def init_db():
      print('ok')
 
 
-
-@app.cli.command('fill-db')
-def fill_db():
-     count = 14
-     for user in range(8, count +1):
-        user_password=f'password{user}'
-
-        newuser = User(user_login = f'user{user}', user_email = f'user{user}@mail.ru')
-        newuser.set_password(user_password)
-
-        db.session.add(newuser)
-     db.session.commit()
-     print('ok')
-
-
 @app.route('/')
 def index():
     context = {'title':'Welcom to MySite'}
     return render_template('base.html', **context)
-
-@app.errorhandler(Exception)
-def err(e):
-    return render_template('error.html'), 403
-
-
 
 
 @app.route('/reg/', methods=['GET','POST'])
 def reg_user():
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit:
-       
         user = db.session.query(User).filter(User.user_email == form.email.data).first()
         if user:
                 if user.user_login == form.username.data and user.check_password(form.password.data):
                     flash('Вы успешно прошли авторизацию', 'success')
+                    return redirect(url_for('index'))
                 flash('Неверное имя пользователя или пароль', 'danger')
-                return redirect(url_for('err'))
+                return render_template('register.html', form=form)
 
         else:    
             newuser = User(user_login = form.username.data, user_email = form.email.data)
@@ -71,4 +50,6 @@ def reg_user():
 
 
 if __name__ == '__main__':
-    app.run( debug=True)
+    with app.app_context():     
+        db.create_all()
+    app.run(debug=True)
