@@ -1,6 +1,3 @@
-# многопоточный подход, многопроцессорный и
-# # асинхронный подходы.
-
 import requests
 import threading
 import time
